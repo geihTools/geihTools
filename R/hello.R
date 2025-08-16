@@ -9,7 +9,7 @@
 #
 # Some useful keyboard shortcuts for package authoring:
 #
-#   Install Package:           'Ctrl + Shift + B'
+#   Install Package:           'Ctrl + Shift + B's
 
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
@@ -17,3 +17,5 @@
 hello <- function() {
   print("Hello, world!")
 }
+
+

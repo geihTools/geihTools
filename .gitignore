@@ -1,0 +1,46 @@
+# ==============================
+# Archivos temporales de R
+# ==============================
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# ==============================
+# Archivos de construcción del paquete
+# ==============================
+*.tar.gz
+.Rcheck/
+
+# ==============================
+# Archivos de documentación generada automáticamente
+# ==============================
+vignettes/*.html
+vignettes/*.pdf
+
+# ==============================
+# Dependencias o librerías locales
+# ==============================
+lib/
+packrat/
+renv/library/
+renv/cache/
+
+# ==============================
+# Archivos del IDE (RStudio)
+# ==============================
+*.Rproj
+.Rproj.user/
+
+# ==============================
+# Archivos del sistema operativo
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# Otros temporales
+# ==============================
+*.log
+*.out
+*.tmp
