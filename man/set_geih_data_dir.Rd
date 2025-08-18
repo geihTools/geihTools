@@ -14,25 +14,3 @@ Permite establecer una carpeta propia donde se encuentren los datos GEIH.
 Una vez configurada, esta ruta queda guardada como opción global del paquete
 y será utilizada automáticamente por funciones como \code{\link[=merge_month]{merge_month()}}.
 }
-\details{
-\subsection{Recomendación}{
-
-Para mayor compatibilidad, organiza los datos en subcarpetas por año y mes:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{C:/mi_geih_data/
-  ├── 2023/
-  │    ├── enero/
-  │    └── febrero/
-  └── 2024/
-       ├── enero/
-       └── febrero/
-}\if{html}{\out{</div>}}
-}
-}
-\examples{
-set_geih_data_dir("C:/mi_geih_data")
-
-# Luego basta con:
-dt <- merge_month("enero", year = 2023)
-
-}

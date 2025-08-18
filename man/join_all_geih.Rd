@@ -11,5 +11,5 @@ join_all_geih()
 Archivo con la GEIH empleta, para el año 2024
 }
 \description{
-`join_all_geih()` Crea un archivo .csv llamado "geih_complete.csv".
+\code{join_all_geih()} Crea un archivo .csv llamado "geih_complete.csv".
 }

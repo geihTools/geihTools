@@ -2,10 +2,9 @@
 
 export(geih_data_base)
 export(get_geih_data_dir)
+export(join_all_geih)
 export(merge_month)
 export(normalize_month_es)
 export(resolve_data_dir)
 export(set_geih_data_dir)
-export(join_all_geih)
-
 import(data.table)
