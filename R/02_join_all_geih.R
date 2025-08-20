@@ -1,25 +1,44 @@
 #' Fusionar todos los meses de un año de la GEIH
-#' @param year Año (default 2024)
-#' @param data_dir Carpeta base (opcional)
-#' @param verbose Mensajes de progreso
-#' @return data.table consolidado del año
+#'
+#' Une todos los módulos de cada mes de un año en un solo `data.table`.
+#'
+#' @param year Año a consolidar (default 2024).
+#' @param data_dir Ruta base con los datos (opcional).
+#' @param verbose Si TRUE, muestra mensajes de progreso.
+#'
+#' @return data.table consolidado con toda la GEIH del año.
 #' @export
 join_all_months <- function(year = 2024, data_dir = NULL, verbose = TRUE) {
+  # 1. Resolver carpeta base
   base_root <- resolve_data_dir(data_dir)
-  base_dir <- if (identical(base_root, geih_data_base())) base_root else file.path(base_root, as.character(year))
-  if (!dir.exists(base_dir)) stop(sprintf("No existe carpeta: %s", base_dir))
 
+  if (identical(base_root, geih_data_base())) {
+    # Caso bundle embebido (ya apunta a geih_2024/)
+    base_dir <- base_root
+  } else {
+    # Caso carpeta usuario → probar varias estructuras
+    base_dir <- file.path(base_root, as.character(year))
+    if (!dir.exists(base_dir)) base_dir <- base_root
+  }
+
+  if (!dir.exists(base_dir)) {
+    stop(sprintf("No existe carpeta: %s", base_dir))
+  }
+
+  # 2. Listar carpetas de meses
   months <- list.dirs(path = base_dir, full.names = FALSE, recursive = FALSE)
-  if (!length(months)) stop("No se encontraron meses.")
+  if (!length(months)) stop("No se encontraron subcarpetas de meses en: ", base_dir)
 
+  # 3. Consolidar todos los meses
   all_months <- data.table::rbindlist(
     lapply(months, function(m) {
       if (verbose) message("Procesando mes: ", m)
-      merge_month(m, year = year, data_dir = base_root, verbose = verbose)
+      merge_month(m, year = year, data_dir = base_dir, verbose = verbose)
     }),
     fill = TRUE
   )
-  all_months
+
+  return(all_months)
 }
 
 #' Consolidar GEIH completa de un año

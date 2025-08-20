@@ -7,15 +7,15 @@
 join_all_months(year = 2024, data_dir = NULL, verbose = TRUE)
 }
 \arguments{
-\item{year}{Año (default 2024)}
+\item{year}{Año a consolidar (default 2024).}
 
-\item{data_dir}{Carpeta base (opcional)}
+\item{data_dir}{Ruta base con los datos (opcional).}
 
-\item{verbose}{Mensajes de progreso}
+\item{verbose}{Si TRUE, muestra mensajes de progreso.}
 }
 \value{
-data.table consolidado del año
+data.table consolidado con toda la GEIH del año.
 }
 \description{
-Fusionar todos los meses de un año de la GEIH
+Une todos los módulos de cada mes de un año en un solo \code{data.table}.
 }

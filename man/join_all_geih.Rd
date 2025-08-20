@@ -7,11 +7,11 @@
 join_all_geih(year = 2024, data_dir = NULL, verbose = TRUE)
 }
 \arguments{
-\item{year}{Año (default 2024)}
+\item{year}{Año a consolidar (default 2024).}
 
-\item{data_dir}{Carpeta base (opcional)}
+\item{data_dir}{Ruta base con los datos (opcional).}
 
-\item{verbose}{Mensajes de progreso}
+\item{verbose}{Si TRUE, muestra mensajes de progreso.}
 }
 \description{
 Consolidar GEIH completa de un año
