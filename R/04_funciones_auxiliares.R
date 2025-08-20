@@ -343,3 +343,6 @@ preparar_eje_x <- function(dt, temporalidad, by_vars) {
   return(dt)
 }
 
+usethis::use_testthat()
+
+

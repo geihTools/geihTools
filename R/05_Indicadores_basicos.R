@@ -135,6 +135,12 @@ indicadores_basicos <- function(data,
   indicadores[, tasa_informalidad := (Informales / Ocupados) * 100]
   indicadores[, tasa_ninis := (nini / jovenes) * 100]
 
+  # Normalizar nombres para que coincidan con la documentación
+  data.table::setnames(indicadores,
+                       old = c("poblacion", "nini", "jovenes"),
+                       new = c("Poblacion", "Nini", "Jovenes"),
+                       skip_absent = TRUE)
+
   # 10. Variable periodo estándar
   if (temporalidad == "anual") {
     indicadores[, PERIODO_G := ANO]
