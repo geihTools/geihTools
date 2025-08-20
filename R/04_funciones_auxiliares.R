@@ -135,18 +135,7 @@ map_ocupacion <- function(dt) {
   return(dt)
 }
 
-# ----------------------------------------------------------
-# 8. Mapear Tipo de Vivienda
-# ----------------------------------------------------------
-map_vivienda <- function(dt) {
-  propiedad_map_short <- c(
-    "1" = "Propia pagada", "2" = "Propia en pago",
-    "3" = "Arriendo", "4" = "Usufructo", "5" = "Posesión sin título",
-    "6" = "Propiedad colectiva", "7" = "Otra"
-  )
-  dt[, P5090 := propiedad_map_short[as.character(P5090)]]
-  return(dt)
-}
+
 
 # ----------------------------------------------------------
 # 9. Mapear Sexo
@@ -317,7 +306,6 @@ map_all_variables <- function(dt) {
   dt <- map_acceso_salud(dt)
   dt <- map_afiliacion_salud(dt)
   dt <- map_ocupacion(dt)
-  dt <- map_vivienda(dt)
   dt <- map_sexo(dt)
   dt <- map_area(dt)
   dt <- map_CLASE(dt)
