@@ -6,16 +6,68 @@
 library(data.table)
 
 # ----------------------------------------------------------
-# 1. Función para calcular el divisor de meses
+# 0. Manejo de bundle comprimido
 # ----------------------------------------------------------
 
-#' Obtener divisor por meses en función de la data
+#' Obtener y descomprimir bundle GEIH incluido en el paquete
 #'
-#' @param data data.table con columna `MES`
-#' @param year Año de referencia (default: 2024)
-#' @param months Vector opcional de meses seleccionados
-#' @return Número de meses únicos (para dividir expansores)
+#' Esta función busca el archivo `inst/extdata/geih_2024.zip` dentro del
+#' paquete, lo descomprime en una carpeta temporal y retorna la ruta.
+#'
+#' @return Ruta absoluta a la carpeta descomprimida `geih_2024`.
+#' @keywords internal
 #' @export
+get_geih_bundle <- function() {
+  bundle <- system.file("extdata", "geih_2024.zip", package = "geihTools")
+  target_dir <- file.path(tempdir(), "geih_2024")
+
+  if (!dir.exists(target_dir)) {
+    if (file.exists(bundle)) {
+      utils::unzip(bundle, exdir = tempdir())
+    } else {
+      stop("No se encontró el bundle de datos 'geih_2024.zip' dentro del paquete.")
+    }
+  }
+  return(target_dir)
+}
+
+#' Ruta del bundle embebido (GEIH 2024 de ejemplo)
+#'
+#' Retorna la ruta absoluta al *bundle* de datos incluido dentro del paquete,
+#' ya descomprimido. Si no existe, se descomprime automáticamente.
+#'
+#' @return Ruta absoluta a la carpeta descomprimida `geih_2024`.
+#' @keywords internal
+#' @export
+geih_data_base <- function() {
+  get_geih_bundle()
+}
+
+#' Resolver carpeta de datos
+#'
+#' Determina de dónde leer los datos según la prioridad:
+#' 1. Ruta explícita pasada como argumento,
+#' 2. Carpeta configurada con [set_geih_data_dir()],
+#' 3. Bundle embebido comprimido (zip).
+#'
+#' @param data_dir Ruta explícita (opcional).
+#' @return Ruta absoluta a la carpeta base seleccionada.
+#' @keywords internal
+#' @export
+resolve_data_dir <- function(data_dir = NULL) {
+  if (!is.null(data_dir)) {
+    return(normalizePath(data_dir, winslash = "/", mustWork = TRUE))
+  }
+  user <- get_geih_data_dir()
+  if (!is.null(user)) {
+    return(user)
+  }
+  geih_data_base()
+}
+
+# ----------------------------------------------------------
+# 1. Función para calcular el divisor de meses
+# ----------------------------------------------------------
 get_month_divisor <- function(data, year = 2024, months = NULL) {
   if (is.null(months) && "MES" %in% names(data)) {
     n_months <- length(unique(data$MES))
@@ -28,9 +80,8 @@ get_month_divisor <- function(data, year = 2024, months = NULL) {
 }
 
 # ----------------------------------------------------------
-# 2. Mapear Departamentos
+# 2+. Tus funciones de mapeo (departamentos, educación, etc.)
 # ----------------------------------------------------------
-
 #' Reemplazar códigos de departamentos por nombres
 #' @param dt data.table con columna `DPTO`
 #' @return data.table con DPTO renombrado
@@ -295,7 +346,10 @@ clasificar_nini <- function(dt) {
   return(dt)
 }
 
-# 4. Wrapper final
+
+# ----------------------------------------------------------
+# 4. Wrapper final de mapeo
+# ----------------------------------------------------------
 map_all_variables <- function(dt) {
   dt <- clasificar_formalidad(dt)
   dt <- map_informalidad(dt)
@@ -312,7 +366,9 @@ map_all_variables <- function(dt) {
   return(dt)
 }
 
-# Auxiliar para definir eje del gráfico
+# ----------------------------------------------------------
+# 5. Auxiliar para definir eje del gráfico
+# ----------------------------------------------------------
 preparar_eje_x <- function(dt, temporalidad, by_vars) {
   if (temporalidad == "anual") {
     dt[, eje_x := ANO]
@@ -330,7 +386,3 @@ preparar_eje_x <- function(dt, temporalidad, by_vars) {
 
   return(dt)
 }
-
-usethis::use_testthat()
-
-

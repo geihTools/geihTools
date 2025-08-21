@@ -1,8 +1,8 @@
 Package: geihTools
 Type: Package
 Title: Tools for Processing and Analyzing GEIH Data
-Version: 0.1.0
-Authors@R: c(person("Daniel", "Molina", email = "daniel@unimag.edu.co", role = c("aut", "cre")),person("Alic", "Barandica", email = "alic@unimag.edu.co", role = "aut"))
+Version: 1.0.0
+Authors@R: c(person("Daniel", "Molina", email = "dm0025900@gamil.com", role = c("aut", "cre")),person("Alic", "Barandica", email = "alic@unimag.edu.co", role = "aut"))
 Description:
     geihTools facilita la carga, limpieza y análisis de la Gran Encuesta
     Integrada de Hogares (GEIH). Incluye funciones para fusionar módulos

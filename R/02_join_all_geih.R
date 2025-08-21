@@ -3,24 +3,25 @@
 #' Une todos los módulos de cada mes de un año en un solo `data.table`.
 #'
 #' @param year Año a consolidar (default 2024).
-#' @param data_dir Ruta base con los datos (opcional).
+#' @param data_dir Ruta base con los datos (opcional). Si es `NULL`,
+#'   se utiliza el bundle embebido comprimido dentro del paquete.
 #' @param verbose Si TRUE, muestra mensajes de progreso.
 #'
 #' @return data.table consolidado con toda la GEIH del año.
 #' @export
 join_all_months <- function(year = 2024, data_dir = NULL, verbose = TRUE) {
   # 1. Resolver carpeta base
-  base_root <- resolve_data_dir(data_dir)
-
-  if (identical(base_root, geih_data_base())) {
-    # Caso bundle embebido (ya apunta a geih_2024/)
-    base_dir <- base_root
+  if (is.null(data_dir)) {
+    # Caso bundle embebido → descomprimir zip en tempdir()
+    base_root <- get_geih_bundle()
   } else {
-    # Caso carpeta usuario → probar varias estructuras
-    base_dir <- file.path(base_root, as.character(year))
-    if (!dir.exists(base_dir)) base_dir <- base_root
+    # Caso carpeta usuario
+    base_root <- resolve_data_dir(data_dir)
   }
 
+  # Asegurar que la carpeta existe
+  base_dir <- file.path(base_root, as.character(year))
+  if (!dir.exists(base_dir)) base_dir <- base_root
   if (!dir.exists(base_dir)) {
     stop(sprintf("No existe carpeta: %s", base_dir))
   }

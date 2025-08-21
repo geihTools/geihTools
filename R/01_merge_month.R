@@ -20,25 +20,28 @@ merge_month <- function(month, year = 2024, data_dir = NULL, verbose = TRUE) {
   # Normalizar mes
   month <- normalize_month_es(month)
 
-  # Resolver carpeta base
+  # Resolver carpeta base (puede ser: zip embebido -> tempdir, o carpeta usuario)
   base_root <- resolve_data_dir(data_dir)
 
   if (identical(base_root, geih_data_base())) {
-    # Caso: bundle embebido
+    # Caso: bundle embebido ya descomprimido
     base_dir <- file.path(base_root, month)
   } else {
-    # Caso: carpeta usuario
+    # Caso: carpeta usuario → probar varias estructuras
     base_dir <- file.path(base_root, as.character(year), month)
     if (!dir.exists(base_dir)) base_dir <- file.path(base_root, month)
     if (!dir.exists(base_dir)) base_dir <- base_root
   }
 
-  if (!dir.exists(base_dir))
+  if (!dir.exists(base_dir)) {
     stop(sprintf("No existe carpeta: %s", base_dir))
+  }
 
+  # Buscar CSV
   files <- list.files(base_dir, pattern = "\\.csv$", full.names = TRUE, ignore.case = TRUE)
-  if (!length(files))
+  if (!length(files)) {
     stop(sprintf("Sin CSV en: %s", base_dir))
+  }
 
   if (verbose) message(sprintf("Leyendo %d archivo(s) desde %s", length(files), base_dir))
 

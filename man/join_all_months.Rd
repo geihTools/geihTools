@@ -9,7 +9,8 @@ join_all_months(year = 2024, data_dir = NULL, verbose = TRUE)
 \arguments{
 \item{year}{Año a consolidar (default 2024).}
 
-\item{data_dir}{Ruta base con los datos (opcional).}
+\item{data_dir}{Ruta base con los datos (opcional). Si es \code{NULL},
+se utiliza el bundle embebido comprimido dentro del paquete.}
 
 \item{verbose}{Si TRUE, muestra mensajes de progreso.}
 }
